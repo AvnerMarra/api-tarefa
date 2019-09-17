@@ -1,0 +1,24 @@
+@layout('main')
+@section('content')
+  <h1 class="mb-3">Nova Tarefa</h1>
+<form action="{{route('/add')}}" method="POST">
+    {{ csrfField() }}
+    <div class="mb-3">
+        <label for="">Título</label>
+        <input type="text" class="form-control {{ hasErrorFor('title') ? 'is-invalid' :''}}"
+        name="title" placeholder="Seu título" value="">
+        {{ elIf('<div class="invalid-feedback"> $self</div>', getErrorFor('title'), hasErrorFor('title'))}}
+        
+    </div>
+
+    <div class="mb-3">
+            <label for="">Descrição</label>
+            <textarea name="body" class="form-control {{ hasErrorFor('body') ? 'is-invalid' :''}}"
+            placeholder="Descrição" value="">
+            </textarea>
+            {{ elIf('<div class="invalid-feedback"> $self</div>', getErrorFor('body'), hasErrorFor('body'))}}
+        </div>
+
+        <button class="btn btn-primary" type="submit">New task</button>
+</form>
+@endsection
