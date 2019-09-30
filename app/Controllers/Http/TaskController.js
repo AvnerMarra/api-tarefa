@@ -1,55 +1,61 @@
 'use strict'
 
 const Task = use('App/Models/Task')
-const { validateAll} = use('Validator')
+const { validateAll } = use('Validator')
 
 class TaskController {
-   async index({view}) {
-    
-    const tasks = await Task.all()
+    async index({ view }) {
 
-    return view.render('tasks', {
-        title:'Listas de tarefas',
-        tasks: tasks.toJSON()
-    })
-    
-  }
+        const tasks = await Task.all()
 
-  async store ({request, response, session}) {
-      const message ={
-          'title.required':'Este campo precisa ser preenchido',
-          'body.required': 'Este campo precisa ser preenchido'
-      }
-    
-    const validation = await validateAll(request.all(), {
-        title: 'required|min:5|max140',
-        body: 'required|min:10|'
-        }, message)
+        return view.render('tasks', {
+            title: 'Listas de tarefas',
+            tasks: tasks.toJSON()
+        })
 
-    if (validation.fails()){
-        session.withErrors(validation.messages()).flashAll()
-        return response.redirect('back')
     }
-    const task = new Task()
 
-    task.title = request.input('title')
-    task.body = request.input('body')
-    
-    await task.save()
+    async store({ request, response, session, auth }) {
+        const {id} = auth.user
+        const data = request.only("title", "body")
 
-    session.flash({notification: 'Tarefa Adicionada!'})
+        
+        const message = {
+            'title.required': 'Este campo precisa ser preenchido',
+            'body.required': 'Este campo precisa ser preenchido'
+        }
 
-    return response.redirect('/tasks')
-  }
-  
-async detail ({params, view}){
-    const task = await Task.find(params.id)
-    
-    return view.render('detail', {
-        task: task
-    })
-    
-    } 
+
+        const task = new Task()
+
+        task.title = request.input('title')
+        task.body = request.input('body')
+
+        await task.save()
+
+        session.flash({ notification: 'Tarefa Adicionada!' })
+
+        return response.redirect('/tasks')
+    }
+
+    async detail({ params, view }) {
+        const task = await Task.find(params.id)
+
+        return view.render('detail', {
+            task: task
+        })
+
+    }
+
+    async remove({ params, response, session }) {
+        const task = await Task.find(params.id)
+        await task.delete()
+        session.flash({ notification: 'Tarefa deletada!' })
+
+        return response.redirect('/tasks')
+
+
+    }
 }
 
 

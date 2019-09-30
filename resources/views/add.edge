@@ -6,19 +6,18 @@
     <div class="mb-3">
         <label for="">Título</label>
         <input type="text" class="form-control {{ hasErrorFor('title') ? 'is-invalid' :''}}"
-        name="title" placeholder="Seu título" value="">
+        name="title" placeholder="Título" value="">
         {{ elIf('<div class="invalid-feedback"> $self</div>', getErrorFor('title'), hasErrorFor('title'))}}
         
     </div>
 
     <div class="mb-3">
             <label for="">Descrição</label>
-            <textarea name="body" class="form-control {{ hasErrorFor('body') ? 'is-invalid' :''}}"
-            placeholder="Descrição" value="">
+            <textarea name="body" class="form-control {{ hasErrorFor('body') ? 'is-invalid' :''}}" placeholder="Descrição">
             </textarea>
             {{ elIf('<div class="invalid-feedback"> $self</div>', getErrorFor('body'), hasErrorFor('body'))}}
-        </div>
+    </div>
 
-        <button class="btn btn-primary" type="submit">New task</button>
+        <button class="btn btn-primary" type="submit">Nova Tarefa</button>
 </form>
 @endsection
