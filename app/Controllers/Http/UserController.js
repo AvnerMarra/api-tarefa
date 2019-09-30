@@ -6,7 +6,10 @@ const { validateAll } = use('Validator')
 class UserController {
 
     async index ({view}){
+
+        
         return view.render('login')
+
     }
     async create({ request, response }) {
         try {
@@ -41,7 +44,7 @@ class UserController {
 
         }
     }
-
+    
     async login ({request, response, auth}){
 
         try {
@@ -50,8 +53,11 @@ class UserController {
 
             const validaToken = await auth.attempt(email, password)
 
-            return validaToken
-
+            if (validaToken = true ){
+                return validaToken.response.redirect('/')
+                  
+            }
+        
 
 
         } catch (err) {

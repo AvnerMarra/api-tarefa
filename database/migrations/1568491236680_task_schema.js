@@ -9,8 +9,8 @@ class TaskSchema extends Schema {
       table.increments()
       table.integer('user_id').unsigned().references('id')
         .inTable('users').onUpdate('CASCADE').onDelete('CASCADE')
-      table.string('title').notNulllable()
-      table.string('body').notNulllable()
+      table.string('title').notNullable()
+      table.string('body').notNullable() 
       table.timestamps()
     })
   }

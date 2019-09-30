@@ -16,14 +16,25 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
+
+/*Home */
 Route.on('/').render('home')
+
+/*Routes Task */
 Route.get('/tasks', 'TaskController.index')
-Route.post('/user', 'UserController.create')
-Route.post('/login', 'UserController.login')
-Route.get('/login', 'UserController.index')
-Route.on('/add').render('add')
 Route.post('add', 'TaskController.store')
+Route.on('/add').render('add')
 Route.get('/task/:id', 'TaskController.detail')
 Route.get('/remove/:id', 'TaskController.remove')
+
+/*Routes User */
+Route.get('/login', 'UserController.index')
+Route.post('/login', 'UserController.login')
+Route.post('/user', 'UserController.create')
+Route.on('/user').render('user')
+
+
+
+
 
 
